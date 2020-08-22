@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clipper</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎬</text></svg>">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/picnic">
+  <link rel="stylesheet" href="main.css">
+
+</head>
+<body>
+  <h1>
+    🎬 Clipper
+    <span class="version-number">v1.0</span>
+  </h1>
+
+  <main>
+    <form action="/">
+      <p>Youtube Link</p>
+      <input
+        type="text"
+        name="url"
+        value="https://youtu.be/9h6AAqd4Lno"
+        required
+      />
+      <br>
+      <p>When should we start trimming?</p>
+      <input
+        class="half-input"
+        type="number"
+        min="0"
+        max="10"
+        name="start_minutes"
+
+      /> mins
+      <input
+        class="half-input"
+        type="number"
+        min="0"
+        max="60"
+        name="start_seconds"
+
+      /> secs
+      <br>
+      <p>Duration of clip</p>
+      <input
+        type="number"
+        name="end"
+        max="15"
+        min="1"
+
+      />
+      <br>
+      <br>
+      <button>Grab</button>
+    </form>
+    <br>
+    <br>
+    <div class="loader">
+      <p>Please wait, stealing videos can take a while.</p>
+      <img src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/cd514331234507.564a1d2324e4e.gif" width="100%" alt="loader" />
+    </div>
+    <div id="output">
+      <video controls></video>
+      <p>Right click or long press on video to save it.</p>
+      <p> <b>Note:</b> Clips are automatically deleted from the server after 15 minutes.</p>
+    </div>
+
+    <div class="modal">
+      <input id="modal_1" type="checkbox" />
+      <label for="modal_1" class="overlay"></label>
+      <article>
+        <header>
+          <h3>Oi! 😲</h3>
+          <label for="modal_1" class="close">&times;</label>
+        </header>
+        <section class="content">
+          It looks like we couldn't get that video. You should try another one.
+        </section>
+        <footer>
+          <label for="modal_1" class="button dangerous">
+            Close
+          </label>
+        </footer>
+      </article>
+    </div>
+    <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.8.3/dist/ffmpeg.min.js"></script>
+    <script src="https://unpkg.com/axios@0.19.2/dist/axios.min.js"></script>
+    <script src="lib.js"></script>
+    <script src="main.js"></script>
+  </main>
+
+</body>
+</html>
