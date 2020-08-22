@@ -8,10 +8,7 @@ const progress = document.querySelector("#progress");
 
 const { createFFmpeg } = FFmpeg;
 const ffmpeg = createFFmpeg({
-  log: false,
-  progress: p => {
-    progress.style.width = `${p.ratio * 100}%`
-  }
+  log: false
 });
 
 let loading = false;
@@ -40,7 +37,7 @@ form.addEventListener("submit", async e => {
   loading = true;
   loader.style.display = "block";
   output.style.display = "none";
-  status.textContent = "Trying to get download url 🔎.";
+  status.textContent = "Trying to get download url 🔎";
 
   // get direct url
   const response = await axios.post("/api/grab", body);

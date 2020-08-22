@@ -50,4 +50,17 @@ button {
   height: 15px;
   background: tomato;
   width: 0;
+  animation: 5s infinite linear looper;
+}
+
+@keyframes looper {
+  0% {
+    width: 0;
+  }
+  80% {
+    width: 90%;
+  }
+  100% {
+    width: 100%;
+  }
 }

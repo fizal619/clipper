@@ -2,7 +2,7 @@ FROM golang:latest
 
 RUN go get "github.com/kkdai/youtube"
 
-COPY . /app
+ADD . /app
 WORKDIR /app
 
 RUN go build -o main .
