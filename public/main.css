@@ -41,3 +41,9 @@ button {
   float: right;
   line-height: 55px;
 }
+
+#progress {
+  height: 15px;
+  background: tomato;
+  width: 0;
+}

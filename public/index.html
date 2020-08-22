@@ -21,7 +21,7 @@
       <input
         type="text"
         name="url"
-        value="https://youtu.be/9h6AAqd4Lno"
+        value="https://youtu.be/FSrr6rbG06M"
         required
       />
       <br>
@@ -32,6 +32,8 @@
         min="0"
         max="10"
         name="start_minutes"
+        required
+        value=0
 
       /> mins
       <input
@@ -40,6 +42,8 @@
         min="0"
         max="60"
         name="start_seconds"
+        required
+        value=10
 
       /> secs
       <br>
@@ -49,7 +53,8 @@
         name="end"
         max="15"
         min="1"
-
+        required
+        value="10"
       />
       <br>
       <br>
@@ -59,12 +64,13 @@
     <br>
     <div class="loader">
       <p>Please wait, stealing videos can take a while.</p>
-      <img src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/cd514331234507.564a1d2324e4e.gif" width="100%" alt="loader" />
+      <p>Do not close this tab.</p>
+      <p id="status_message"> </p>
+      <div id="progress"> </div>
     </div>
     <div id="output">
       <video controls></video>
       <p>Right click or long press on video to save it.</p>
-      <p> <b>Note:</b> Clips are automatically deleted from the server after 15 minutes.</p>
     </div>
 
     <div class="modal">
@@ -87,6 +93,7 @@
     </div>
     <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.8.3/dist/ffmpeg.min.js"></script>
     <script src="https://unpkg.com/axios@0.19.2/dist/axios.min.js"></script>
+
     <script src="lib.js"></script>
     <script src="main.js"></script>
   </main>

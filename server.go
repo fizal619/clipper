@@ -3,17 +3,13 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"github.com/kkdai/youtube"
 	"log"
 	"net/http"
-	"net/url"
-	// "regexp"
-	// "strings"
-	"github.com/rylio/ytdl"
 )
 
 type VideoBlueprint struct {
-	Id string
+	Url string
 }
 
 func main() {
@@ -36,49 +32,29 @@ func urlHandler(res http.ResponseWriter, req *http.Request) {
 		http.Error(res, "Method is not supported.", http.StatusNotFound)
 		return
 	}
-	fmt.Fprintf(res, "POST request successful")
 
 	var video VideoBlueprint
 
 	json.NewDecoder(req.Body).Decode(&video)
 
-	log.Println(video.Id)
+	log.Println(video.Url)
 
-	// build url
-	req_url := fmt.Sprintf("https://www.youtube.com/get_video_info?html5=1&video_id=%s", video.Id)
-	log.Println(req_url)
-
-	// make request for url info
-	response, err := http.Get(req_url)
+	client := youtube.Client{}
+	videoObj, err := client.GetVideo(video.Url)
 	if err != nil {
-		log.Println("Cannot get video Info")
+		log.Println("Could not get video ", video.Url)
+		fmt.Fprint(res, `{ "success": false }`)
 		return
 	}
-	// we should have the video info?
-	defer response.Body.Close()
-	body, err := ioutil.ReadAll(response.Body)
-	if err != nil {
-		log.Println("Cannot parse video Info")
-		return
-	}
-	decoded_response, err := url.QueryUnescape(string(body))
-	if err != nil {
-		log.Println("Could not decode response")
-		return
-	}
-	// finder := regexp.MustCompile(`\"https?:(.*!("))\"`)
-	// split_response := strings.Split(decoded_response, ",")
-	// mp := make(map[string]interface{})
-	// json_err := json.Unmarshal([]byte(decoded_response), &mp)
-	// if json_err != nil {
-	// 	log.Println("ERROR PARSING RETURN JSON")
-	// 	return
-	// }
-	query, err := url.ParseQuery(decoded_response)
-	// keys := make([]string, 0, len(query))
-	// for k := range query {
-	// 	keys = append(keys, k)
-	// }
-	log.Println(">>>>", query["player_response"])
 
+	res.Header().Set("Content-Type", "application/json")
+
+	if len(videoObj.Formats) > 0 {
+		fmt.Fprintf(res, `{
+			"success": true,
+			"stream": "%s"
+		}`, videoObj.Formats[0].URL)
+	} else {
+		fmt.Fprint(res, `{ "success": false }`)
+	}
 }
