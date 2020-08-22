@@ -42,6 +42,10 @@ button {
   line-height: 55px;
 }
 
+#status_message {
+  font-weight: bold;
+}
+
 #progress {
   height: 15px;
   background: tomato;
