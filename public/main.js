@@ -8,7 +8,7 @@ const progress = document.querySelector("#progress");
 
 const { createFFmpeg } = FFmpeg;
 const ffmpeg = createFFmpeg({
-  log: true,
+  log: false,
   progress: p => {
     progress.style.width = `${p.ratio * 100}%`
   }
@@ -34,7 +34,7 @@ form.addEventListener("submit", async e => {
     end: e.target.end.value
   }
 
-  console.log("BODY > ", body, "OPTIONS", trimOptions);
+  // console.log("BODY > ", body, "OPTIONS", trimOptions);
 
 
   loading = true;
@@ -44,7 +44,7 @@ form.addEventListener("submit", async e => {
 
   // get direct url
   const response = await axios.post("/api/grab", body);
-  console.log("RES", response.data);
+  // console.log("RES", response.data);
 
   if (response.data.success) {
     //download it to blob
@@ -52,16 +52,16 @@ form.addEventListener("submit", async e => {
     status.textContent = "Got download url, getting video 🎥";
     try {
       await ffmpeg.load();
-      console.log("writing w/ ffmpeg");
+      // console.log("writing w/ ffmpeg");
       await ffmpeg.write("video.mp4", corsBypassedStream);
       status.textContent = "Got video, trimming ✂";
-      console.log("run ffmpeg");
-      console.log(await ffmpeg.ls("/"));
+      // console.log("run ffmpeg");
+      // console.log(await ffmpeg.ls("/"));
       const textOpts = ` -vf drawtext="text='Clipped with clipper!': fontcolor=white: fontsize=24: box=1: boxcolor=black@0.5: boxborderw=5: x=10: y=10"`;
       await ffmpeg.run(
         `-i video.mp4 -threads 4 -ss ${trimOptions.start} -t ${trimOptions.end} flame.mp4`
       )
-      console.log("read ffmpeg?");
+      // console.log("read ffmpeg?");
       const buffer = ffmpeg.read("flame.mp4");
       loadBlobToPlayer(new Blob([buffer], {type: "video/mp4"}));
     } catch (e) {
