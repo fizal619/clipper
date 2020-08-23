@@ -6,13 +6,7 @@ const modalTrigger = document.querySelector("#modal_1");
 const status = document.querySelector("#status_message");
 const progress = document.querySelector("#progress");
 
-const { createFFmpeg } = FFmpeg;
-const ffmpeg = createFFmpeg({
-  log: true
-});
-
 let loading = false;
-
 
 form.addEventListener("submit", async e => {
   e.preventDefault();
@@ -48,6 +42,10 @@ form.addEventListener("submit", async e => {
     const corsBypassedStream = `https://cors-anywhere.herokuapp.com/${response.data.stream}`;
     status.textContent = "Got download url, getting video 🎥";
     try {
+      FFmpeg.setLogging(true)
+      const ffmpeg = FFmpeg.createWorker({
+        logger: (data) => console.log(data),
+      });
       await ffmpeg.load();
       // console.log("writing w/ ffmpeg");
       await ffmpeg.write("video.mp4", corsBypassedStream);
@@ -55,11 +53,13 @@ form.addEventListener("submit", async e => {
       // console.log("run ffmpeg");
       // console.log(await ffmpeg.ls("/"));
       await ffmpeg.run(
-        `-i video.mp4 -threads 4 -ss ${trimOptions.start} -t ${trimOptions.end} flame.mp4`
-      )
+        `-i video.mp4 -preset ultrafast -ss ${trimOptions.start} -t ${trimOptions.end} flame.mp4`
+      );
       // console.log("read ffmpeg?");
-      const buffer = ffmpeg.read("flame.mp4");
-      loadBlobToPlayer(new Blob([buffer], {type: "video/mp4"}));
+      const buffer = await ffmpeg.read("flame.mp4");
+      await ffmpeg.terminate();
+      const videoBlob = new Blob([buffer.data], {type: "video/mp4"});
+      loadBlobToPlayer(videoBlob);
     } catch (e) {
       console.error(e);
       modalError();
@@ -70,3 +70,4 @@ form.addEventListener("submit", async e => {
   loader.style.display = "none";
   loading = false;
 });
+
