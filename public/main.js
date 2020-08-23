@@ -8,7 +8,7 @@ const progress = document.querySelector("#progress");
 
 const { createFFmpeg } = FFmpeg;
 const ffmpeg = createFFmpeg({
-  log: false
+  log: true
 });
 
 let loading = false;
@@ -54,7 +54,6 @@ form.addEventListener("submit", async e => {
       status.textContent = "Got video, trimming ✂";
       // console.log("run ffmpeg");
       // console.log(await ffmpeg.ls("/"));
-      const textOpts = ` -vf drawtext="text='Clipped with clipper!': fontcolor=white: fontsize=24: box=1: boxcolor=black@0.5: boxborderw=5: x=10: y=10"`;
       await ffmpeg.run(
         `-i video.mp4 -threads 4 -ss ${trimOptions.start} -t ${trimOptions.end} flame.mp4`
       )
