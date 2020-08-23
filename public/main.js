@@ -43,9 +43,7 @@ form.addEventListener("submit", async e => {
     status.textContent = "Got download url, getting video 🎥";
     try {
       FFmpeg.setLogging(true)
-      const ffmpeg = FFmpeg.createWorker({
-        logger: (data) => console.log(data),
-      });
+      const ffmpeg = FFmpeg.createWorker();
       await ffmpeg.load();
       // console.log("writing w/ ffmpeg");
       await ffmpeg.write("video.mp4", corsBypassedStream);
