@@ -42,19 +42,22 @@ form.addEventListener("submit", async e => {
     const corsBypassedStream = `https://cors-anywhere.herokuapp.com/${response.data.stream}`;
     status.textContent = "Got download url, getting video 🎥";
     try {
-      FFmpeg.setLogging(true)
+      // FFmpeg.setLogging(true)
       const ffmpeg = FFmpeg.createWorker();
       await ffmpeg.load();
       // console.log("writing w/ ffmpeg");
       await ffmpeg.write("video.mp4", corsBypassedStream);
+      await ffmpeg.write("intro.mp4", "/intro.mp4");
       status.textContent = "Got video, trimming ✂";
       // console.log("run ffmpeg");
       // console.log(await ffmpeg.ls("/"));
       await ffmpeg.run(
-        `-i video.mp4 -preset ultrafast -ss ${trimOptions.start} -t ${trimOptions.end} flame.mp4`
+        `-i video.mp4 -preset ultrafast -ss ${trimOptions.start} -t ${trimOptions.end} -c copy flame.mp4`
       );
-      // console.log("read ffmpeg?");
-      const buffer = await ffmpeg.read("flame.mp4");
+      await ffmpeg.concatDemuxer(["flame.mp4", "outro.mp4"], "final.mp4", "-c copy ");
+
+      // // console.log("read ffmpeg?");
+      const buffer = await ffmpeg.read("final.mp4");
       await ffmpeg.terminate();
       const videoBlob = new Blob([buffer.data], {type: "video/mp4"});
       loadBlobToPlayer(videoBlob);
