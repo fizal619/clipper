@@ -47,7 +47,7 @@ form.addEventListener("submit", async e => {
       await ffmpeg.load();
       // console.log("writing w/ ffmpeg");
       await ffmpeg.write("video.mp4", corsBypassedStream);
-      await ffmpeg.write("intro.mp4", "/intro.mp4");
+      await ffmpeg.write("intro.mp4", "/outro.mp4");
       status.textContent = "Got video, trimming ✂";
       // console.log("run ffmpeg");
       // console.log(await ffmpeg.ls("/"));
