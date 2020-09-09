@@ -48,4 +48,5 @@ jobs:
       id: install
 
     - run: |
-        helm upgrade --set image.repository="${{ secrets.REGISTRY_USERNAME }}/clipper" --set image.version="${{ github.sha }}" clipper deploy
+        helm delete clipper
+        helm install --set image.repository="${{ secrets.REGISTRY_USERNAME }}/clipper" --set image.version="${{ github.sha }}" clipper deploy
