@@ -5,7 +5,7 @@ RUN go get "github.com/kkdai/youtube"
 ADD . /app
 WORKDIR /app
 
-RUN ./rewrite.sh && go build -o main .
+RUN /bin/bash rewrite.sh && go build -o main .
 
 EXPOSE 3000
 
