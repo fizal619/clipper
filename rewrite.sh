@@ -5,7 +5,7 @@ TIME=$(date +%s)
 for f in lib.js main.css main.js
 do
   echo "Processing $f"
-  cp "public/$f" "public/$f-$TIME"
-  sed -i.bak "s/$f/$f-$TIME/" public/index.html
+  cp "public/$f" "public/$TIME-$f"
+  sed -i.bak "s/$f/$TIME-$f/" public/index.html
 
 done
