@@ -52,9 +52,9 @@ form.addEventListener("submit", async e => {
       // console.log("run ffmpeg");
       // console.log(await ffmpeg.ls("/"));
       await ffmpeg.run(
-        `-i video.mp4 -preset ultrafast -ss ${trimOptions.start} -t ${trimOptions.end} -c copy flame.mp4`
+        `-ss ${trimOptions.start} -i video.mp4 -preset fast -c copy -t ${trimOptions.end} flame.mp4`
       );
-      await ffmpeg.concatDemuxer(["flame.mp4", "outro.mp4"], "final.mp4", "-c copy ");
+      await ffmpeg.concatDemuxer(["flame.mp4", "outro.mp4"], "final.mp4","-c copy");
 
       // // console.log("read ffmpeg?");
       const buffer = await ffmpeg.read("final.mp4");
