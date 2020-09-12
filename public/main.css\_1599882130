@@ -1,0 +1,66 @@
+main {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+h1 {
+  background-color: tomato;
+  padding: 10px;
+  color: whitesmoke;
+}
+
+#output {
+  display: none;
+}
+
+video {
+  width: 100%;
+}
+
+.loader {
+  display: none;
+}
+
+.half-input {
+  width: 30%;
+  margin: 0 auto;
+}
+
+button {
+  background: tomato;
+  float: right;
+}
+
+.output p {
+  text-align: center;
+}
+
+.version-number {
+  font-size: 50%;
+  float: right;
+  line-height: 55px;
+}
+
+#status_message {
+  font-weight: bold;
+}
+
+#progress {
+  height: 15px;
+  background: tomato;
+  width: 0;
+  animation: 5s infinite linear looper;
+}
+
+@keyframes looper {
+  0% {
+    width: 0;
+  }
+  80% {
+    width: 90%;
+  }
+  100% {
+    width: 100%;
+  }
+}
