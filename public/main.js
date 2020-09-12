@@ -47,17 +47,17 @@ form.addEventListener("submit", async e => {
       await ffmpeg.load();
       // console.log("writing w/ ffmpeg");
       await ffmpeg.write("video.mp4", corsBypassedStream);
-      // await ffmpeg.write("outro.mp4", "/outro.mp4");
+      await ffmpeg.write("outro.mp4", "/outro.mp4");
       status.textContent = "Got video, trimming ✂";
       // console.log("run ffmpeg");
       // console.log(await ffmpeg.ls("/"));
       await ffmpeg.run(
-        `-ss ${trimOptions.start} -i video.mp4 -preset fast -c copy -t ${trimOptions.end} flame.mp4`
+        ` -ss 0 -i video.mp4 -preset fast -ss ${trimOptions.start} -t ${trimOptions.end} -c copy flame.mp4`
       );
-      // await ffmpeg.concatDemuxer(["flame.mp4", "outro.mp4"], "final.mp4","-c copy");
+      await ffmpeg.concatDemuxer(["flame.mp4", "outro.mp4"], "final.mp4","-c copy");
 
       // // console.log("read ffmpeg?");
-      const buffer = await ffmpeg.read("flame.mp4");
+      const buffer = await ffmpeg.read("final.mp4");
       await ffmpeg.terminate();
       const videoBlob = new Blob([buffer.data], {type: "video/mp4"});
       loadBlobToPlayer(videoBlob);
