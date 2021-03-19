@@ -38,7 +38,6 @@ form.addEventListener("submit", async e => {
   // console.log("RES", response.data);
 
   if (response.data.success) {
-    await corsAnywhereConfirm()
     //download it to blob
     const corsBypassedStream = `https://cors-anywhere.herokuapp.com/${response.data.stream}`;
     status.textContent = "Got download url, getting video 🎥";
