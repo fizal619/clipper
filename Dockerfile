@@ -7,7 +7,7 @@ RUN go mod tidy
 
 ADD . /app
 
-RUN /bin/bash rewrite.sh && go build && ls /app
+RUN /bin/bash rewrite.sh && go build
 
 EXPOSE 3000
 
