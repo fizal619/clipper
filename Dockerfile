@@ -1,12 +1,14 @@
-FROM golang:1.15.2
+FROM golang:1.16.4
 
-RUN go get "github.com/kkdai/youtube"
+WORKDIR /app
+ADD go.mod /app/go.mod
+
+RUN go mod tidy
 
 ADD . /app
-WORKDIR /app
 
-RUN /bin/bash rewrite.sh && go build -o main .
+RUN /bin/bash rewrite.sh && go build && ls /app
 
 EXPOSE 3000
 
-CMD ["./main"]
+CMD ["/app/clipper"]

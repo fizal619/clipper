@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/kkdai/youtube"
+	"github.com/kkdai/youtube/v2"
 	"log"
 	"net/http"
 )
@@ -50,15 +50,15 @@ func urlHandler(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("Content-Type", "application/json")
 
 	if len(videoObj.Formats) > 0 {
-		var hd720 = videoObj.Formats.FindByQuality("hd720")
-		if hd720 != nil {
-			log.Println("got 720p")
-			fmt.Fprintf(res, `{
-				"success": true,
-				"stream": "%s"
-			}`, hd720.URL)
-			return
-		}
+		// var hd720 = videoObj.Formats.FindByQuality("hd720")
+		// if hd720 != nil {
+		// 	log.Println("got 720p")
+		// 	fmt.Fprintf(res, `{
+		// 		"success": true,
+		// 		"stream": "%s"
+		// 	}`, hd720.URL)
+		// 	return
+		// }
 
 		var medium = videoObj.Formats.FindByQuality("medium")
 		log.Println("got medium quality")
